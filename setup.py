@@ -11,7 +11,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web 
-from tornado.options import define, options, escape
+from tornado.options import define, options
 
 define("port", default=4001, help="run on the given port", type=int)
 
@@ -28,7 +28,8 @@ class Application(tornado.web.Application):
 		self.db = pymongo.MongoClient('localhost',27017)[DB_NAME]
 
 		handlers = [
-			(r"/", MainHandler)
+			(r"/", MainHandler),
+			(r"/token-test", TestHandler)
 		]
 		settings = {
 			"debug"	: True,
@@ -159,7 +160,7 @@ class AccessHandler(ApiHandler):
 		return False
 		
 # 请求处理类
-class MainHandler(AccessHandler):
+class MainHandler(ApiHandler):
 	# 在相应的请求做完处理后，给客户端返回数据，此时回复头已经处理完毕
 
 	def head(self):
@@ -183,6 +184,10 @@ class MainHandler(AccessHandler):
 	def options(self):
 		self.finish(chunk={"method":6}, info="options method")
 
+# token-test
+class TestHandler(AccessHandler):
+	def get(self):
+		self.finish(chunk={"msg":"hello world"}, info="your access_token is valid")
 # 入口函数		
 def main():
 	tornado.options.parse_command_line()

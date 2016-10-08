@@ -49,14 +49,14 @@ user # 用户数据表
 普通请求：
 [GET] 127.0.0.1:4001
 
-[RESPOSE] {"meta":{"code":200,"info":"get method"},"data":{"method":0}}
+[RESPONSE] {"data": {"method": 1}, "meta": {"info": "get method", "code": 200}}
 ```
 
 ```
 使用jsonp请求：
 [GET] 127.0.0.1:4001?callback=handler
 
-[RESPOSE] handler({"meta":{"code":200,"info":"get method"},"data":{"method":0}})
+[RESPONSE] handler({"data": {"method": 1}, "meta": {"info": "get method", "code": 200}})
 ```
 
 ### 注意事项
